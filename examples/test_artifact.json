@@ -1,0 +1,6 @@
+{
+  "title": "Login flow run #32",
+  "observed_text": "Welcome back, Jamie. Dashboard loaded successfully.",
+  "dom_snapshot": "<main><h1>Dashboard</h1><p>Welcome back, Jamie</p><button>Logout</button></main>",
+  "screenshot_path": ""
+}
