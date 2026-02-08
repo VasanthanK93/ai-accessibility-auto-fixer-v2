@@ -1,31 +1,26 @@
-# Automating QA analysis with multimodal reasoning (local-first)
+# Automating QA analysis with multimodal reasoning (Node.js, local-first)
 
-This project provides a practical way to reduce brittle selector-only assertions by combining:
+This Node.js application reduces brittle selector-only QA assertions by evaluating runtime outcomes against acceptance criteria.
 
-- Acceptance criteria from docs/user stories.
-- Runtime test artifacts (observed text, DOM snapshot, optional screenshot metadata).
-- A pluggable reasoning backend:
-  - `mock` (no LLM, deterministic and offline)
-  - `ollama` (local LLM via `ollama serve`)
+## What it does
 
-It can also auto-update test-case text with outcome-oriented recommendations.
+- Ingests acceptance criteria from user stories/documents.
+- Ingests test artifacts from a run (observed text, DOM snapshot, optional screenshot path).
+- Evaluates coverage with pluggable analysis backends:
+  - `mock`: deterministic and fully offline (no LLM)
+  - `ollama`: local LLM reasoning through `ollama serve`
+- Auto-updates test-case files with criterion-level recommendations.
 
-## Why this helps
-
-Traditional Playwright assertions can break when selectors or page structure change. This tool focuses on **intent-level verification** by mapping test outcomes against acceptance criteria and generating test maintenance suggestions.
-
-## Quick start
+## Install
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -e .
+npm install
 ```
 
-### Run in fully local mock mode (no LLM)
+## Run (mock mode, no LLM)
 
 ```bash
-qa-automator \
+node bin/qa-automator.js \
   --criteria examples/acceptance_criteria.json \
   --artifact examples/test_artifact.json \
   --backend mock \
@@ -33,19 +28,13 @@ qa-automator \
   --updated-test-case-out examples/updated_test_case.md
 ```
 
-### Run with local Ollama
-
-1. Start Ollama and pull a model:
+## Run (Ollama local)
 
 ```bash
 ollama serve
 ollama pull llama3.1:8b
-```
 
-2. Run analysis:
-
-```bash
-qa-automator \
+node bin/qa-automator.js \
   --criteria examples/acceptance_criteria.json \
   --artifact examples/test_artifact.json \
   --backend ollama \
@@ -53,19 +42,25 @@ qa-automator \
   --host http://localhost:11434
 ```
 
-## Data formats
+## Test
 
-### Acceptance criteria JSON
+```bash
+npm test
+```
+
+## Data format
+
+Acceptance criteria:
 
 ```json
 {
   "criteria": [
-    {"id": "AC-1", "statement": "User can submit login form and see dashboard welcome message"}
+    { "id": "AC-1", "statement": "User can submit login form and see dashboard welcome message" }
   ]
 }
 ```
 
-### Test artifact JSON
+Test artifact:
 
 ```json
 {
@@ -75,9 +70,3 @@ qa-automator \
   "screenshot_path": "optional/path.png"
 }
 ```
-
-## Extending
-
-- Integrate with Playwright/Cypress by exporting run artifacts to the JSON schema.
-- Replace `MockBackend` scoring logic with richer rule-based checks.
-- Add CI job that runs mock mode for deterministic triage, and optionally ollama mode for deeper analysis.
