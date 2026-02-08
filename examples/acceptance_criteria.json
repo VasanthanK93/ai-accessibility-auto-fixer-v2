@@ -1,0 +1,12 @@
+{
+  "criteria": [
+    {
+      "id": "AC-1",
+      "statement": "User can submit login form and see dashboard welcome message"
+    },
+    {
+      "id": "AC-2",
+      "statement": "Error banner appears for invalid credentials with retry guidance"
+    }
+  ]
+}
