@@ -1,0 +1,16 @@
+{
+  "name": "qa-automator-mm",
+  "version": "0.2.0",
+  "description": "Local-first multimodal QA analysis with Node.js, mock mode, and Ollama",
+  "type": "module",
+  "bin": {
+    "qa-automator": "bin/qa-automator.js"
+  },
+  "scripts": {
+    "test": "node --test",
+    "start": "node bin/qa-automator.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
